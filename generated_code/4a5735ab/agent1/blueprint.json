@@ -1,0 +1,148 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "screen_name": "Add Email Accounts Screen",
+      "description": "Initial screen prompting to add email accounts.",
+      "action": "click",
+      "target_element_description": "Crear cuenta button",
+      "value_to_enter": null,
+      "associated_image": "page1_img0.jpeg"
+    },
+    {
+      "step_id": 2,
+      "screen_name": "Account Creation Form Screen",
+      "description": "Enter desired username for the Outlook account.",
+      "action": "type_text",
+      "target_element_description": "Email address field",
+      "value_to_enter": "desired_username",
+      "associated_image": "page2_img0.jpeg"
+    },
+    {
+      "step_id": 3,
+      "screen_name": "Account Creation Form Screen",
+      "description": "Proceed to next step after entering username.",
+      "action": "click",
+      "target_element_description": "Siguiente button",
+      "value_to_enter": null,
+      "associated_image": "page2_img0.jpeg"
+    },
+    {
+      "step_id": 4,
+      "screen_name": "Password Creation Screen",
+      "description": "Create a password for the new account.",
+      "action": "type_text",
+      "target_element_description": "Password input field",
+      "value_to_enter": "ValidPassword123!",
+      "associated_image": "page3_img0.jpeg"
+    },
+    {
+      "step_id": 5,
+      "screen_name": "Password Creation Screen",
+      "description": "Continue after entering password.",
+      "action": "click",
+      "target_element_description": "Siguiente button",
+      "value_to_enter": null,
+      "associated_image": "page3_img0.jpeg"
+    },
+    {
+      "step_id": 6,
+      "screen_name": "Personal Information \u2013 Name Screen",
+      "description": "Enter first name.",
+      "action": "type_text",
+      "target_element_description": "First name field",
+      "value_to_enter": "Gast\u00f3n",
+      "associated_image": "page4_img0.jpeg"
+    },
+    {
+      "step_id": 7,
+      "screen_name": "Personal Information \u2013 Name Screen",
+      "description": "Enter last name.",
+      "action": "type_text",
+      "target_element_description": "Last name field",
+      "value_to_enter": "Galindo",
+      "associated_image": "page4_img0.jpeg"
+    },
+    {
+      "step_id": 8,
+      "screen_name": "Personal Information \u2013 Name Screen",
+      "description": "Proceed after entering name.",
+      "action": "click",
+      "target_element_description": "Siguiente button",
+      "value_to_enter": null,
+      "associated_image": "page4_img0.jpeg"
+    },
+    {
+      "step_id": 9,
+      "screen_name": "Date of Birth Information Screen",
+      "description": "Set country/region.",
+      "action": "type_text",
+      "target_element_description": "Country/Region field",
+      "value_to_enter": "M\u00e9xico",
+      "associated_image": "page5_img0.jpeg"
+    },
+    {
+      "step_id": 10,
+      "screen_name": "Date of Birth Information Screen",
+      "description": "Enter day of birth.",
+      "action": "type_text",
+      "target_element_description": "Day field",
+      "value_to_enter": "24",
+      "associated_image": "page5_img0.jpeg"
+    },
+    {
+      "step_id": 11,
+      "screen_name": "Date of Birth Information Screen",
+      "description": "Enter month of birth.",
+      "action": "type_text",
+      "target_element_description": "Month field",
+      "value_to_enter": "febrero",
+      "associated_image": "page5_img0.jpeg"
+    },
+    {
+      "step_id": 12,
+      "screen_name": "Date of Birth Information Screen",
+      "description": "Enter year of birth.",
+      "action": "type_text",
+      "target_element_description": "Year field",
+      "value_to_enter": "1996",
+      "associated_image": "page5_img0.jpeg"
+    },
+    {
+      "step_id": 13,
+      "screen_name": "Date of Birth Information Screen",
+      "description": "Proceed after setting date of birth.",
+      "action": "click",
+      "target_element_description": "Siguiente button",
+      "value_to_enter": null,
+      "associated_image": "page5_img0.jpeg"
+    },
+    {
+      "step_id": 14,
+      "screen_name": "CAPTCHA Challenge Screen",
+      "description": "Press and hold the CAPTCHA button to verify.",
+      "action": "press_and_hold",
+      "target_element_description": "PRESIONAR Y MANTENER PRESIONADO button",
+      "value_to_enter": null,
+      "associated_image": "page6_img0.jpeg"
+    },
+    {
+      "step_id": 15,
+      "screen_name": "CAPTCHA Processing Screen",
+      "description": "Continue holding until the CAPTCHA verification completes.",
+      "action": "continue_hold",
+      "target_element_description": "CAPTCHA button",
+      "value_to_enter": null,
+      "associated_image": "page7_img0.jpeg"
+    },
+    {
+      "step_id": 16,
+      "screen_name": "Account Creation Success Screen",
+      "description": "Accept the confirmation and finish account creation.",
+      "action": "click",
+      "target_element_description": "ACEPTAR button",
+      "value_to_enter": null,
+      "associated_image": "page8_img0.jpeg"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+[
+  {
+    "step_id": 1,
+    "screen_name": "Initial Screen \u2013 Add Email Accounts",
+    "description": "User sees the welcome screen with options to add or create an account. Tap the \"Crear cuenta\" button to start account creation.",
+    "action": "click",
+    "target_element_description": "\"Crear cuenta\" button (highlighted in green)",
+    "value_to_enter": null,
+    "associated_image": "page1_img0.jpeg"
+  },
+  {
+    "step_id": 2,
+    "screen_name": "Account Creation Form \u2013 Username",
+    "description": "Enter the desired username into the email field.",
+    "action": "type_text",
+    "target_element_description": "Email username input field (example: gaston.galindo)",
+    "value_to_enter": "your_username",
+    "associated_image": "page2_img0.jpeg"
+  },
+  {
+    "step_id": 3,
+    "screen_name": "Account Creation Form \u2013 Next",
+    "description": "Proceed to the next step after entering the username.",
+    "action": "click",
+    "target_element_description": "\"Siguiente\" (Next) button",
+    "value_to_enter": null,
+    "associated_image": "page2_img0.jpeg"
+  },
+  {
+    "step_id": 4,
+    "screen_name": "Password Creation",
+    "description": "Create a secure password for the Outlook account.",
+    "action": "type_text",
+    "target_element_description": "Password input field",
+    "value_to_enter": "YourSecurePassword123!",
+    "associated_image": "page3_img0.jpeg"
+  },
+  {
+    "step_id": 5,
+    "screen_name": "Password Creation \u2013 Next",
+    "description": "Confirm the password entry and move forward.",
+    "action": "click",
+    "target_element_description": "\"Siguiente\" (Next) button",
+    "value_to_enter": null,
+    "associated_image": "page3_img0.jpeg"
+  },
+  {
+    "step_id": 6,
+    "screen_name": "Personal Information \u2013 Name",
+    "description": "Fill in the first and last name fields.",
+    "action": "type_text",
+    "target_element_description": "First name and Last name input fields",
+    "value_to_enter": "FirstName LastName",
+    "associated_image": "page4_img0.jpeg"
+  },
+  {
+    "step_id": 7,
+    "screen_name": "Personal Information \u2013 Next",
+    "description": "Proceed after entering personal name information.",
+    "action": "click",
+    "target_element_description": "\"Siguiente\" (Next) button",
+    "value_to_enter": null,
+    "associated_image": "page4_img0.jpeg"
+  },
+  {
+    "step_id": 8,
+    "screen_name": "Date of Birth Information",
+    "description": "Set the country/region and date of birth.",
+    "action": "select_date",
+    "target_element_description": "Country/Region picker and Date of Birth fields",
+    "value_to_enter": "Mexico, 24 February 1996",
+    "associated_image": "page5_img0.jpeg"
+  },
+  {
+    "step_id": 9,
+    "screen_name": "Date of Birth \u2013 Next",
+    "description": "Continue after providing birth date.",
+    "action": "click",
+    "target_element_description": "\"Siguiente\" (Next) button",
+    "value_to_enter": null,
+    "associated_image": "page5_img0.jpeg"
+  },
+  {
+    "step_id": 10,
+    "screen_name": "CAPTCHA Challenge \u2013 Press & Hold",
+    "description": "Simulate a press-and-hold gesture on the CAPTCHA button to prove non\u2011bot activity.",
+    "action": "press_and_hold",
+    "target_element_description": "\"PRESIONAR Y MANTENER PRESIONADO\" button",
+    "value_to_enter": null,
+    "associated_image": "page6_img0.jpeg"
+  },
+  {
+    "step_id": 11,
+    "screen_name": "CAPTCHA Challenge \u2013 Hold Processing",
+    "description": "Continue holding until the CAPTCHA processing completes (loading indicator disappears).",
+    "action": "hold_until",
+    "target_element_description": "CAPTCHA processing indicator",
+    "value_to_enter": null,
+    "associated_image": "page7_img0.jpeg"
+  },
+  {
+    "step_id": 12,
+    "screen_name": "Account Creation Success",
+    "description": "On the success screen, tap \"ACEPTAR\" to finalize account creation.",
+    "action": "click",
+    "target_element_description": "\"ACEPTAR\" button",
+    "value_to_enter": null,
+    "associated_image": "page8_img0.jpeg"
+  }
+]

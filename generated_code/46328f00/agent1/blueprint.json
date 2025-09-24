@@ -1,0 +1,128 @@
+[
+  {
+    "step_id": 1,
+    "screen_name": "Initial Screen \u2013 Add Email Accounts",
+    "description": "Open Outlook mobile app to the screen where you can add an email account.",
+    "action": "click",
+    "target_element_description": "Create account button (highlighted in green)",
+    "value_to_enter": null,
+    "associated_image": "page1_img0.jpeg"
+  },
+  {
+    "step_id": 2,
+    "screen_name": "Account Creation Form",
+    "description": "Enter desired username in the email field and proceed to the next screen.",
+    "action": "type_text",
+    "target_element_description": "Email username field (example: gaston.galindo)",
+    "value_to_enter": "<desired_username>",
+    "associated_image": "page2_img0.jpeg"
+  },
+  {
+    "step_id": 3,
+    "screen_name": "Account Creation Form \u2013 Next",
+    "description": "Click the 'Siguiente' button to continue to password creation.",
+    "action": "click",
+    "target_element_description": "Next button",
+    "value_to_enter": null,
+    "associated_image": null
+  },
+  {
+    "step_id": 4,
+    "screen_name": "Password Creation",
+    "description": "Enter a strong password and proceed.",
+    "action": "type_text",
+    "target_element_description": "Password input field",
+    "value_to_enter": "<password>",
+    "associated_image": "page3_img0.jpeg"
+  },
+  {
+    "step_id": 5,
+    "screen_name": "Password Creation \u2013 Next",
+    "description": "Click the 'Siguiente' button to continue to personal information.",
+    "action": "click",
+    "target_element_description": "Next button",
+    "value_to_enter": null,
+    "associated_image": null
+  },
+  {
+    "step_id": 6,
+    "screen_name": "Personal Information \u2013 Name",
+    "description": "Fill in first and last name fields and proceed.",
+    "action": "type_text",
+    "target_element_description": "First name field",
+    "value_to_enter": "<first_name>",
+    "associated_image": "page4_img0.jpeg"
+  },
+  {
+    "step_id": 7,
+    "screen_name": "Personal Information \u2013 Last Name",
+    "description": "Enter last name and click 'Siguiente' to go to date of birth.",
+    "action": "type_text",
+    "target_element_description": "Last name field",
+    "value_to_enter": "<last_name>",
+    "associated_image": null
+  },
+  {
+    "step_id": 8,
+    "screen_name": "Personal Information \u2013 Next",
+    "description": "Click the 'Siguiente' button after entering name.",
+    "action": "click",
+    "target_element_description": "Next button",
+    "value_to_enter": null,
+    "associated_image": null
+  },
+  {
+    "step_id": 9,
+    "screen_name": "Date of Birth Information",
+    "description": "Set country, day, month, and year of birth, then proceed.",
+    "action": "type_text",
+    "target_element_description": "Country/Region field",
+    "value_to_enter": "M\u00e9xico",
+    "associated_image": "page5_img0.jpeg"
+  },
+  {
+    "step_id": 10,
+    "screen_name": "Date of Birth Information \u2013 Date Fields",
+    "description": "Enter day, month, and year of birth and click 'Siguiente'.",
+    "action": "type_text",
+    "target_element_description": "Day, Month, Year fields",
+    "value_to_enter": "24, febrero, 1996",
+    "associated_image": null
+  },
+  {
+    "step_id": 11,
+    "screen_name": "Date of Birth Information \u2013 Next",
+    "description": "Click the 'Siguiente' button after setting birth date.",
+    "action": "click",
+    "target_element_description": "Next button",
+    "value_to_enter": null,
+    "associated_image": null
+  },
+  {
+    "step_id": 12,
+    "screen_name": "CAPTCHA Challenge",
+    "description": "Press and hold the CAPTCHA button to start verification.",
+    "action": "press_and_hold",
+    "target_element_description": "CAPTCHA button (PRESIONAR Y MANTENER PRESIONADO)",
+    "value_to_enter": null,
+    "associated_image": "page6_img0.jpeg"
+  },
+  {
+    "step_id": 13,
+    "screen_name": "CAPTCHA Processing",
+    "description": "Continue holding until the button indicates completion.",
+    "action": "wait",
+    "target_element_description": "CAPTCHA button state transition",
+    "value_to_enter": null,
+    "associated_image": "page7_img0.jpeg"
+  },
+  {
+    "step_id": 14,
+    "screen_name": "Account Creation Success",
+    "description": "Click the 'ACEPTAR' button to finish account creation.",
+    "action": "click",
+    "target_element_description": "Accept button",
+    "value_to_enter": null,
+    "associated_image": "page8_img0.jpeg"
+  }
+]

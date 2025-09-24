@@ -1,0 +1,110 @@
+[
+  {
+    "step_id": 1,
+    "screen_name": "Initial Screen \u2013 Add Email Accounts",
+    "description": "Open Outlook mobile app and select to create a new account.",
+    "action": "click",
+    "target_element_description": "\"Crear cuenta\" button",
+    "value_to_enter": null,
+    "associated_image": "page1_img0.jpeg"
+  },
+  {
+    "step_id": 2,
+    "screen_name": "Account Creation Form \u2013 Username",
+    "description": "Enter desired email username in the email field.",
+    "action": "type_text",
+    "target_element_description": "\"Email\" input field",
+    "value_to_enter": "desired_username",
+    "associated_image": "page2_img0.jpeg"
+  },
+  {
+    "step_id": 3,
+    "screen_name": "Account Creation Form \u2013 Continue",
+    "description": "Proceed to next step of account creation.",
+    "action": "click",
+    "target_element_description": "\"Siguiente\" button",
+    "value_to_enter": null,
+    "associated_image": "page2_img0.jpeg"
+  },
+  {
+    "step_id": 4,
+    "screen_name": "Password Creation",
+    "description": "Enter a strong password in the password field.",
+    "action": "type_text",
+    "target_element_description": "\"Password\" input field",
+    "value_to_enter": "StrongPassword123!",
+    "associated_image": "page3_img0.jpeg"
+  },
+  {
+    "step_id": 5,
+    "screen_name": "Password Creation \u2013 Continue",
+    "description": "Proceed to next step after entering password.",
+    "action": "click",
+    "target_element_description": "\"Siguiente\" button",
+    "value_to_enter": null,
+    "associated_image": "page3_img0.jpeg"
+  },
+  {
+    "step_id": 6,
+    "screen_name": "Personal Information \u2013 First Name",
+    "description": "Enter first name in the first name field.",
+    "action": "type_text",
+    "target_element_description": "\"First name\" input field",
+    "value_to_enter": "Gast\u00f3n",
+    "associated_image": "page4_img0.jpeg"
+  },
+  {
+    "step_id": 7,
+    "screen_name": "Personal Information \u2013 Last Name",
+    "description": "Enter last name in the last name field.",
+    "action": "type_text",
+    "target_element_description": "\"Last name\" input field",
+    "value_to_enter": "Galindo",
+    "associated_image": "page4_img0.jpeg"
+  },
+  {
+    "step_id": 8,
+    "screen_name": "Personal Information \u2013 Continue",
+    "description": "Proceed to next step after entering name.",
+    "action": "click",
+    "target_element_description": "\"Siguiente\" button",
+    "value_to_enter": null,
+    "associated_image": "page4_img0.jpeg"
+  },
+  {
+    "step_id": 9,
+    "screen_name": "Date of Birth Information",
+    "description": "Set date of birth using country, day, month, and year fields.",
+    "action": "type_text",
+    "target_element_description": "\"Date of birth\" fields (Country/Region, Day, Month, Year)",
+    "value_to_enter": "M\u00e9xico; 24; febrero; 1996",
+    "associated_image": "page5_img0.jpeg"
+  },
+  {
+    "step_id": 10,
+    "screen_name": "Date of Birth \u2013 Continue",
+    "description": "Proceed after entering date of birth.",
+    "action": "click",
+    "target_element_description": "\"Siguiente\" button",
+    "value_to_enter": null,
+    "associated_image": "page5_img0.jpeg"
+  },
+  {
+    "step_id": 11,
+    "screen_name": "CAPTCHA Challenge",
+    "description": "Press and hold the CAPTCHA button until the process completes.",
+    "action": "press_and_hold",
+    "target_element_description": "\"PRESIONAR Y MANTENER PRESIONADO\" button",
+    "value_to_enter": null,
+    "associated_image": "page6_img0.jpeg"
+  },
+  {
+    "step_id": 12,
+    "screen_name": "Account Creation Success",
+    "description": "Accept final confirmation to finish account creation.",
+    "action": "click",
+    "target_element_description": "\"ACEPTAR\" button",
+    "value_to_enter": null,
+    "associated_image": "page8_img0.jpeg"
+  }
+]
