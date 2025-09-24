@@ -7,8 +7,7 @@ from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from config import ARTIFACTS_DIR
 from agents import agent_1, agent_2, agent_3
 
-# In-memory DB for task state (to be replaced in Phase 2)
-TASKS = {}
+import state_manager
 
 app = FastAPI(title="AISA v2 - Robust Foundation")
 
@@ -39,47 +38,54 @@ async def create_task(
     pdf: UploadFile = File(...)
 ):
     seq_no = uuid.uuid4().hex[:10]
-    task_dir = ARTIFACTS_DIR / seq_no
-    task_dir.mkdir(exist_ok=True)
+    task_dir = state_manager.get_task_dir(seq_no)
+
+    # Create the initial state file
+    state_manager.create_task_state(seq_no, platform, instructions)
     
     pdf_path = task_dir / "input.pdf"
     with pdf_path.open("wb") as buffer:
         shutil.copyfileobj(pdf.file, buffer)
 
-    TASKS[seq_no] = {"status": "processing", "platform": platform}
+    state_manager.update_task_state(seq_no, {"status": "processing"})
     
     # --- Agent Pipeline ---
-    blueprint = agent_1.run_agent1(seq_no, pdf_path, instructions, platform)
-    artifacts = agent_2.run_agent2(seq_no, blueprint)
+    blueprint = agent_1.run_agent1(seq_no, task_dir, pdf_path, instructions, platform)
+    state_manager.update_task_state(seq_no, {"status": "blueprint_created"})
+
+    artifacts = agent_2.run_agent2(seq_no, task_dir, blueprint)
     
-    TASKS[seq_no].update({
+    final_state = state_manager.update_task_state(seq_no, {
         "status": "ready",
         "artifacts": artifacts
     })
     
     print(f"Task {seq_no} created successfully and is ready for execution.")
-    return TASKS[seq_no]
+    return final_state
 
 @app.post("/run/{seq_no}")
 async def run_task(seq_no: str):
-    task_info = TASKS.get(seq_no)
+    task_info = state_manager.get_task_state(seq_no)
     if not task_info:
         raise HTTPException(status_code=404, detail="Task not found.")
     if task_info["status"] != "ready":
         raise HTTPException(status_code=400, detail=f"Task not ready. Status: {task_info['status']}")
 
-    result = agent_3.run_agent3(seq_no, task_info["platform"])
-    task_info["status"] = result["status"]
-    return task_info
+    task_dir = state_manager.get_task_dir(seq_no)
+    result = agent_3.run_agent3(seq_no, task_dir, task_info["platform"])
+
+    return state_manager.update_task_state(seq_no, {"status": result["status"]})
 
 @app.get("/task/{seq_no}")
 async def get_task_status(seq_no: str):
-    task_info = TASKS.get(seq_no)
+    task_info = state_manager.get_task_state(seq_no)
     if not task_info:
         raise HTTPException(status_code=404, detail="Task not found.")
     
-    result_file = ARTIFACTS_DIR / seq_no / "agent3" / "result.txt"
+    # Check for the result file from Agent 3 to see if a running task has finished
+    result_file = state_manager.get_task_dir(seq_no) / "agent3" / "result.txt"
     if result_file.exists() and task_info["status"] == "running":
-        task_info["status"] = result_file.read_text().strip()
+        new_status = result_file.read_text().strip()
+        return state_manager.update_task_state(seq_no, {"status": new_status})
         
     return task_info

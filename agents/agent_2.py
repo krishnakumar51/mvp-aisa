@@ -1,118 +1,88 @@
 from pathlib import Path
 import json
 from fastapi import HTTPException
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain_core.prompts import PromptTemplate
+from langchain_groq import ChatGroq
+from langchain_anthropic import ChatAnthropic
 
-from llm_utils import get_llm_response, extract_code_from_response
+from agent2_tools import code_search, dependency_suggester, create_todo_list
 
-# --- Agent 2's Internal Knowledge Base ---
+# --- Agent 2's Core Logic (Now with LangChain) ---
 
-MOBILE_SETUP_TEMPLATE = """
-import time
-import random
-import subprocess
-from appium import webdriver
-from appium.options.android import UiAutomator2Options
-from appium.webdriver.common.appiumby import AppiumBy
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
-
-def setup_driver(app_package, app_activity):
-    \"\"\"Initializes and returns a robust Appium driver.\"\"\"
-    try:
-        print("Setting up Appium driver...")
-        options = UiAutomator2Options()
-        options.platform_name = 'Android'
-        options.automation_name = 'UiAutomator2'
-        options.app_package = app_package
-        options.app_activity = app_activity
-        options.no_reset = False
-        options.full_reset = False
-        options.new_command_timeout = 300
-        options.auto_grant_permissions = True
-        
-        driver = webdriver.Remote("http://127.0.0.1:4723", options=options)
-        print("✓ Driver is ready.")
-        return driver
-    except Exception as e:
-        print(f"✗ Driver setup failed: {e}")
-        return None
-"""
-
-WEB_SETUP_TEMPLATE = """
-from playwright.sync_api import sync_playwright, Playwright, expect
-import time
-
-def run(playwright: Playwright) -> None:
-    \"\"\"Main function to run the web automation script.\"\"\"
-    print("Setting up browser...")
-    browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context(
-        user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-    )
-    page = context.new_page()
-    page.set_default_timeout(60000)
-    print("✓ Browser is ready.")
-"""
-
-# --- Agent 2's Core Logic ---
-
-def run_agent2(seq_no: str, blueprint: dict) -> dict:
+def run_agent2(seq_no: str, task_dir: Path, blueprint: dict) -> dict:
     """
-    Agent 2: Generates a runnable automation script using its internal,
-    production-grade setup templates and the provided blueprint.
+    Agent 2: Generates a runnable automation script using a LangChain agent
+    with powerful tools.
     """
-    print(f"[{seq_no}] Running Agent 2: Agentic Code Generation")
-    out_dir = Path("generated_code") / seq_no / "agent2"
+    print(f"[{seq_no}] Running Agent 2: LangChain-Powered Code Generation")
+    out_dir = task_dir / "agent2"
     out_dir.mkdir(parents=True, exist_ok=True)
-    
-    platform = blueprint.get("platform", "web")
-    
-    # 1. Select the appropriate internal knowledge template
-    if platform == "mobile":
-        setup_code = MOBILE_SETUP_TEMPLATE
-        framework = "Appium"
-        dependency = "Appium-Python-Client==3.6.0\nselenium==4.22.0" 
-    else:
-        setup_code = WEB_SETUP_TEMPLATE
-        framework = "Playwright"
-        dependency = "playwright==1.45.0"
 
-    # 2. Define prompts and call LLM for code generation
-    system_prompt = (
-        f"You are an expert Python automation developer specializing in {framework}. Your task is to write a complete, "
-        f"runnable Python script based on the provided JSON blueprint. \n"
-        f"**CRITICAL INSTRUCTION:** You MUST use the provided setup code for driver/browser initialization. It is proven and reliable. "
-        f"After the setup, implement the logic for the steps from the blueprint. Generate random, realistic data for inputs like emails, passwords, and names. "
-        f"Import all necessary libraries. The final script should be self-contained and executable in a main block. "
-        f"Respond with ONLY the Python code inside a markdown block."
-    )
-    user_prompt = f"""
-    **JSON Blueprint:**
-    ---
-    {json.dumps(blueprint, indent=2)}
-    ---
-    **MANDATORY Setup Code (Use this to start your script):**
-    ---
-    ```python
-    {setup_code}
-    ```
-    ---
-    Generate the complete, runnable Python {framework} script now.
-    """
-    
+    platform = blueprint.get("summary", {}).get("platform", "web")
+    framework = "Appium" if platform == "mobile" else "Playwright"
+
+    # 1. Initialize the LLM (Groq with Anthropic fallback)
     try:
-        response_text = get_llm_response(user_prompt, system_prompt)
-        script_code = extract_code_from_response(response_text)
+        llm = ChatGroq(temperature=0, model_name="llama3-70b-8192")
+    except Exception:
+        llm = ChatAnthropic(model="claude-3-haiku-20240307")
+
+    # 2. Define the tools for the agent
+    tools = [code_search, dependency_suggester, create_todo_list]
+
+    # 3. Create the prompt template
+    prompt_template = """
+    You are a world-class automation script developer. Your goal is to write a high-quality, runnable Python script based on a blueprint.
+
+    **Framework:** {framework}
+
+    **Blueprint:**
+    {blueprint}
+
+    **Instructions:**
+    1.  First, use the `create_todo_list` tool to outline the steps you will take.
+    2.  If you are unsure about how to implement a specific step, use the `code_search` tool to find examples.
+    3.  If you need to identify the correct libraries for the task, use the `dependency_suggester` tool.
+    4.  Once you have a clear plan, write the complete Python script and the corresponding `requirements.txt` content.
+    5.  Your final answer MUST be a JSON object with two keys: "script" and "requirements".
+
+    **Begin!**
+
+    {agent_scratchpad}
+    """
+    prompt = PromptTemplate.from_template(prompt_template)
+
+    # 4. Create the agent and agent executor
+    agent = create_react_agent(llm, tools, prompt)
+    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+    # 5. Run the agent
+    try:
+        response = agent_executor.invoke({
+            "framework": framework,
+            "blueprint": json.dumps(blueprint, indent=2),
+        })
+
+        # The response from the agent should be a JSON string.
+        # We need to parse it to get the script and requirements.
+        response_json = json.loads(response["output"])
         
+        script_code = response_json.get("script")
+        requirements = response_json.get("requirements")
+
+        if not script_code or not requirements:
+            raise ValueError("LLM response did not contain 'script' or 'requirements' keys.")
+
         script_path = out_dir / "automation_script.py"
         reqs_path = out_dir / "requirements.txt"
-        
+
         script_path.write_text(script_code, encoding="utf-8")
-        reqs_path.write_text(dependency, encoding="utf-8")
+        reqs_path.write_text(requirements, encoding="utf-8")
 
         print(f"[{seq_no}] Agent 2 finished successfully. Script generated at {script_path}")
         return {"script": str(script_path), "requirements": str(reqs_path)}
+
     except Exception as e:
         print(f"[{seq_no}] Agent 2 failed: {e}")
         raise HTTPException(status_code=500, detail=f"Agent 2 (Code Gen) failed: {e}")

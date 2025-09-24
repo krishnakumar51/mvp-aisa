@@ -5,13 +5,13 @@ from fastapi import HTTPException
 
 from llm_utils import get_llm_response, extract_json_from_response
 
-def run_agent1(seq_no: str, pdf_path: Path, instructions: str, platform: str) -> dict:
+def run_agent1(seq_no: str, task_dir: Path, pdf_path: Path, instructions: str, platform: str) -> dict:
     """
     Agent 1: Parses a PDF for text and images, then uses an LLM to generate
     a detailed JSON blueprint for the automation task.
     """
     print(f"[{seq_no}] Running Agent 1: Blueprint Generation")
-    out_dir = Path("generated_code") / seq_no / "agent1"
+    out_dir = task_dir / "agent1"
     out_dir.mkdir(parents=True, exist_ok=True)
     
     # 1. Extract text and images from the PDF
@@ -35,10 +35,14 @@ def run_agent1(seq_no: str, pdf_path: Path, instructions: str, platform: str) ->
 
     # 2. Define prompts and call LLM for the blueprint
     system_prompt = (
-        "You are a master test automation planner. Analyze user instructions, PDF text, and image filenames "
-        "to create a detailed JSON blueprint. Each step must include: 'step_id', 'screen_name', "
+        "You are a master test automation planner. Your task is to create a detailed JSON blueprint for an automation script. "
+        "The JSON output MUST be a single object with two top-level keys: 'summary' and 'steps'.\n"
+        "1. The 'summary' object must contain: 'goal' (a concise summary of the overall objective from user instructions), "
+        "'target_application' (the application name or package ID, inferred from the context, e.g., 'com.microsoft.office.outlook' or 'Outlook Web'), and 'platform'.\n"
+        "2. The 'steps' array must contain a list of sequential actions. Each step must include: 'step_id', 'screen_name', "
         "'description', 'action' (e.g., 'click', 'type_text'), 'target_element_description', "
-        "'value_to_enter' (or null), and 'associated_image' (or null). Respond with ONLY the JSON content."
+        "'value_to_enter' (or null), and 'associated_image' (or null).\n"
+        "Respond with ONLY the JSON content."
     )
     user_prompt = f"""
     Platform: {platform}
